@@ -191,6 +191,16 @@ final class State
     }
 
     /**
+     * Combined time elapsed for all test cases
+     */
+    public function getTotalTimeElapsed(): float
+    {
+        return array_reduce($this->testCaseTests, function($sum, TestResult $testResult) {
+            return $sum + $testResult->time;
+        }, 0.0);
+    }
+
+    /**
      * Returns the printable test case name from the given `TestCase`.
      */
     public static function getPrintableTestCaseName(TestCase $test): string

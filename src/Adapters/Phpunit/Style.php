@@ -63,7 +63,8 @@ final class Style
                 $state->getTestCaseTitle() === 'FAIL' ? 'white' : 'black',
                 $state->getTestCaseTitleColor(),
                 $state->getTestCaseTitle(),
-                $state->testCaseName
+                $state->testCaseName,
+                $state->getTotalTimeElapsed()
             ));
             $state->headerPrinted = true;
         }
@@ -73,7 +74,8 @@ final class Style
                 $testResult->color,
                 $testResult->icon,
                 $testResult->description,
-                $testResult->warning
+                $testResult->warning,
+                $testResult->time
             ));
         });
     }
@@ -232,21 +234,22 @@ final class Style
     /**
      * Returns the title contents.
      */
-    private function titleLineFrom(string $fg, string $bg, string $title, string $testCaseName): string
+    private function titleLineFrom(string $fg, string $bg, string $title, string $testCaseName, float $totalTime): string
     {
         return sprintf(
-            "\n  <fg=%s;bg=%s;options=bold> %s </><fg=default> %s</>",
+            "\n  <fg=%s;bg=%s;options=bold> %s </><fg=default> %s (%.2fs)</>",
             $fg,
             $bg,
             $title,
-            $testCaseName
+            $testCaseName,
+            $totalTime
         );
     }
 
     /**
      * Returns the test contents.
      */
-    private function testLineFrom(string $fg, string $icon, string $description, string $warning = null): string
+    private function testLineFrom(string $fg, string $icon, string $description, string $warning = null, float $time = null): string
     {
         if (!empty($warning)) {
             $warning = sprintf(
@@ -256,11 +259,12 @@ final class Style
         }
 
         return sprintf(
-            "  <fg=%s;options=bold>%s</><fg=default> \e[2m%s\e[22m</><fg=yellow>%s</>",
+            "  <fg=%s;options=bold>%s</><fg=default> \e[2m%s (%.2fs)\e[22m</><fg=yellow>%s</>",
             $fg,
             $icon,
             $description,
-            $warning
+            $time,
+            $warning,
         );
     }
 }

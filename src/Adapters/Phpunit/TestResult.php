@@ -71,9 +71,14 @@ final class TestResult
     public $warning = '';
 
     /**
+     * @var float
+     */
+    public $time;
+
+    /**
      * Test constructor.
      */
-    private function __construct(string $testCaseName, string $description, string $type, string $icon, string $color, Throwable $throwable = null)
+    private function __construct(string $testCaseName, string $description, string $type, string $icon, string $color, Throwable $throwable = null, float $time = null)
     {
         $this->testCaseName = $testCaseName;
         $this->description  = $description;
@@ -81,6 +86,7 @@ final class TestResult
         $this->icon         = $icon;
         $this->color        = $color;
         $this->throwable    = $throwable;
+        $this->time = $time;
 
         $asWarning = $this->type === TestResult::WARN
              || $this->type === TestResult::RISKY
@@ -95,7 +101,7 @@ final class TestResult
     /**
      * Creates a new test from the given test case.
      */
-    public static function fromTestCase(TestCase $testCase, string $type, Throwable $throwable = null): self
+    public static function fromTestCase(TestCase $testCase, string $type, Throwable $throwable = null, float $time = null): self
     {
         $testCaseName = State::getPrintableTestCaseName($testCase);
 
@@ -105,7 +111,7 @@ final class TestResult
 
         $color = self::makeColor($type);
 
-        return new self($testCaseName, $description, $type, $icon, $color, $throwable);
+        return new self($testCaseName, $description, $type, $icon, $color, $throwable, $time);
     }
 
     /**

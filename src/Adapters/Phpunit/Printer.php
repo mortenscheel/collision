@@ -84,7 +84,7 @@ final class Printer implements \PHPUnit\TextUI\ResultPrinter
 
         $testCase = $this->testCaseFromTest($testCase);
 
-        $this->state->add(TestResult::fromTestCase($testCase, TestResult::FAIL, $throwable));
+        $this->state->add(TestResult::fromTestCase($testCase, TestResult::FAIL, $throwable, $time));
     }
 
     /**
@@ -94,7 +94,7 @@ final class Printer implements \PHPUnit\TextUI\ResultPrinter
     {
         $testCase = $this->testCaseFromTest($testCase);
 
-        $this->state->add(TestResult::fromTestCase($testCase, TestResult::WARN, $warning));
+        $this->state->add(TestResult::fromTestCase($testCase, TestResult::WARN, $warning, $time));
     }
 
     /**
@@ -115,7 +115,7 @@ final class Printer implements \PHPUnit\TextUI\ResultPrinter
             $property->setValue($error, $message);
         }
 
-        $this->state->add(TestResult::fromTestCase($testCase, TestResult::FAIL, $error));
+        $this->state->add(TestResult::fromTestCase($testCase, TestResult::FAIL, $error, $time));
     }
 
     /**
@@ -125,7 +125,7 @@ final class Printer implements \PHPUnit\TextUI\ResultPrinter
     {
         $testCase = $this->testCaseFromTest($testCase);
 
-        $this->state->add(TestResult::fromTestCase($testCase, TestResult::INCOMPLETE, $throwable));
+        $this->state->add(TestResult::fromTestCase($testCase, TestResult::INCOMPLETE, $throwable, $time));
     }
 
     /**
@@ -135,7 +135,7 @@ final class Printer implements \PHPUnit\TextUI\ResultPrinter
     {
         $testCase = $this->testCaseFromTest($testCase);
 
-        $this->state->add(TestResult::fromTestCase($testCase, TestResult::RISKY, $throwable));
+        $this->state->add(TestResult::fromTestCase($testCase, TestResult::RISKY, $throwable, $time));
     }
 
     /**
@@ -145,7 +145,7 @@ final class Printer implements \PHPUnit\TextUI\ResultPrinter
     {
         $testCase = $this->testCaseFromTest($testCase);
 
-        $this->state->add(TestResult::fromTestCase($testCase, TestResult::SKIPPED, $throwable));
+        $this->state->add(TestResult::fromTestCase($testCase, TestResult::SKIPPED, $throwable, $time));
     }
 
     /**
@@ -189,7 +189,7 @@ final class Printer implements \PHPUnit\TextUI\ResultPrinter
         $testCase = $this->testCaseFromTest($testCase);
 
         if (!$this->state->existsInTestCase($testCase)) {
-            $this->state->add(TestResult::fromTestCase($testCase, TestResult::PASS));
+            $this->state->add(TestResult::fromTestCase($testCase, TestResult::PASS, null, $time));
         }
 
         if ($testCase instanceof TestCase
